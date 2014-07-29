@@ -1,0 +1,55 @@
+h3 {
+  padding-left: 50px;
+}
+
+#make_deck {
+  margin-left: 85px;
+}
+
+.add-window {
+  border: 2px solid black;
+  min-width: 410px;
+  min-height: 320px;
+  position: fixed;
+  bottom: 0px;
+  right: 10px;
+  background-color: white;
+}
+
+.deck-list {
+  list-style-type: none;
+  background: white;
+}
+
+.add-window .header {
+  background-color: #333;
+  color: white;
+}
+
+.add-window div {
+  padding: 5px 20px;
+}
+
+.description {
+  margin: 10px 0;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+  vertical-align: top;
+}
+
+.button-bar {
+  text-align: right;
+}
+
+input[type=text] {
+  width: 200px;
+}
+
+textarea {
+  width: 200px;
+  height: 100px;
+}

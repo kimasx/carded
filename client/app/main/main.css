@@ -1,0 +1,33 @@
+.thing-form {
+    margin: 20px 0;
+}
+
+#banner {
+    border-bottom: none;
+    margin-top: 60px;
+    background-image: url('http://media.idtech.com/uploads/2013/07/location_city_berkeley_ca.jpg');
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.hero-unit {
+    height: 540px;
+    position: relative;
+    padding: 60px 15px;
+    color: black;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.footer {
+  color: white;
+  padding: 30px;
+  margin-top: 0px;
+  background-color: #2c3e50;
+  border-top: 0;
+  height: 142px;
+}
