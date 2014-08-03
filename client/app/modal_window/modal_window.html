@@ -1,0 +1,44 @@
+<br><br><div>
+    <div class="modal-header">
+        <h3 class="modal-title">Let's Study</h3>
+    </div>
+
+
+    <div class="modal-body">
+        <ul class="card-items">
+            <li ng-repeat="card in cards">
+                <a ng-show="card.visible">{{ card.question }}</a>
+            </li>
+        </ul>
+        <input id='answer-input' placeholder="Answer Here"></input>
+        <div ng-show="showButton()">{{selected.card.answer}}</div><br>
+        Selected: <b>{{ selected.card }}</b>
+    </div>
+
+      <!-- Web Speech Buttons -->
+     <button class="btn btn-danger" id="start_button" ng-hide="showWebSpeechButton()" ng-click="startWebSpeech(event)">
+        Say Answer
+      </button>
+      <button class="btn btn-warning" id="stop_button" ng-show="showWebSpeechButton()" ng-click="stopWebSpeech(event)">
+        Stop
+      </button>
+
+      <!-- Show Answer Button -->
+      <button class="btn btn-primary" ng-click="showAnswer()" ng-hide="showButton()">Show Answer</button>
+      <button class="btn btn-primary" ng-click="hideAnswer()" ng-show="showButton()">Hide Answer</button>
+
+    <div class='time-buttons'>
+      <button class="btn btn-inverse" ng-click="setDifficulty('hard')">Hard (soon)</button>
+      <button class="btn btn-inverse" ng-click="setDifficulty('medium')">Medium (1 day)</button>
+      <button class="btn btn-inverse" ng-click="setDifficulty('easy')">Easy (3 days)</button>
+    </div>
+    <div class='flow-btns'>
+      <button class="glyphicon glyphicon-chevron-left" ng-click="prevCard()"></button>
+      <button class="glyphicon glyphicon-chevron-right" ng-click="nextCard()"></button>
+    </div>
+    <div class="modal-footer">
+
+        <button class="btn btn-inverse" ng-click="close()">Close</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</div>

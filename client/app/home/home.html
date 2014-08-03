@@ -4,11 +4,15 @@
 <div ng-controller='HomeCtrl'>
     <button class='btn btn-danger' id='make_deck' ng-click="startAdd()">Make Deck</button>
     <ul>
-      <li class='deck-list' ng-repeat="item in items">
-        <a href='/deck/{{item.name}}' ng-click="item.showing = !item.showing">
-          {{item.name}}
-        </a>
-       <button class='close'>x</button>
+      <li class='col-xs-3 deck-list tile' ng-repeat="item in items">
+          <a href='/deck/{{item.name}}/{{item._id}}' ng-click="item.showing = !item.showing">
+            {{item.name}}
+          </a>
+          <span class="fui-cross" ng-click='deleteItem(item, $index)'></span>
+
+          <div ng-controller="ModalWindowCtrl">
+            <span class="fui-play" ng-click="open(item)"></span>
+          </div>
         <!-- <div ng-show="item.showing" class='description'
           ng-bind-html-unsafe="item.description"></div> -->
       </li>
@@ -26,7 +30,7 @@
         </div>
         <div class='button-bar'>
           <input type="submit" value="Add">
-          <button type="button" ng-click="cancelAdd()">Cancel</button>
+          <button class="btn btn-inverse"type="button" ng-click="cancelAdd()">Cancel</button>
         </div>
       </div>
     </form>

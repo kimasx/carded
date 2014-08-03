@@ -4,7 +4,9 @@ angular.module('authTestApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'ui.bootstrap.modal',
+  'ui.bootstrap.tpls'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

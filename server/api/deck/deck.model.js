@@ -1,13 +1,22 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    Card = mongoose.model('Card');
+    Schema = mongoose.Schema;
+
+var CardSchema = new Schema({
+  question: String,
+  answer: String,
+  correct: Boolean,
+  difficulty: String
+});
 
 var DeckSchema = new Schema({
   name: String,
   description: String,
-  cards: [Card]
+  cards: [CardSchema]
 });
 
-module.exports = mongoose.model('Deck', DeckSchema);
+module.exports = {
+  'Card': mongoose.model('Card', CardSchema),
+  'Deck': mongoose.model('Deck', DeckSchema)
+}

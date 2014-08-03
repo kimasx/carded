@@ -1,8 +1,38 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<br><br><br><br><br><br>
+<br>
+<br>
+<br>{{name}} Deck
 
-<div class="col-md-12">
-This is the deck view.  You're looking at deck {{name}}.
+<div ng-controller='DeckCtrl'>
+    <button class='btn btn-primary' id='add_card' ng-click="startAddCard()">+ Add Card</button>
+    <div ng-controller="ModalWindowCtrl">
+      <button class='btn btn-danger' id='launch-deck' ng-click="open(deck)">Study Deck</button>
+    </div>
+    <ul>
+        <li class='col-md-12 cards tile' ng-repeat='card in cards'>
+            <div>Question: {{card.question}}</div>
+            <div>Answer: {{card.answer}}</div>
+            <div>Difficulty: {{card.difficulty}}</div>
+            <span class="fui-cross" ng-click='deleteCard(card, $index)'></span>
+            <span class="fui-new"></span>
+        </li>
+    </ul>
+
+    <form ng-show="adding" class="add-window" ng-submit="addCard()">
+        <div class='header'>Add a Card</div>
+        <div class='inner'>
+            <div>
+                <label>Question:</label>
+                <input type="text" ng-model="newCard.question" required>
+            </div>
+            <div>
+                <label>Answer:</label>
+                <textarea ng-model="newCard.answer" required></textarea>
+            </div>
+            <div class='button-bar'>
+                <input type="submit" value="Add">
+                <button type="button" ng-click="cancelAddCard()">Cancel</button>
+            </div>
+        </div>
+    </form>
 </div>
-
-

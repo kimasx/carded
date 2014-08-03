@@ -1,0 +1,10 @@
+.modal-content {
+  width: 900px;
+  height: 650px;
+  position: center;
+  background-color: #edeff1;
+}
+
+.card-items {
+  list-style-type: none;
+}
