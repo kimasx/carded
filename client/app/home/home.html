@@ -4,7 +4,7 @@
 <div ng-controller='HomeCtrl'>
     <button class='btn btn-danger' id='make_deck' ng-click="startAdd()">Make Deck</button>
     <ul>
-      <li class='col-xs-3 deck-list tile' ng-repeat="item in items">
+      <li class='col-xs-2 deck-list tile' ng-repeat="item in items">
           <a href='/deck/{{item.name}}/{{item._id}}' ng-click="item.showing = !item.showing">
             {{item.name}}
           </a>

@@ -4,150 +4,256 @@ var deckId;
 
 // directive code for modal
 angular.module('authTestApp')
-  .controller('ModalWindowCtrl', function($scope, $http, $modal, $log, $templateCache) {
+    .controller('ModalWindowCtrl', function($scope, $http, $modal, $log, $templateCache) {
 
-      $scope.cards = [];
+        $scope.cards = [];
 
-      // open modal window
-      $scope.open = function (deck, size) {
-        deckId = deck._id;
-        // get cards from selected deck
-        $http.get('/api/decks/' + deckId)
-          .success(function(data) {
-            // set items array equal to cards
-            $scope.cards = data.cards;
-            var modalInstance = $modal.open({
-              templateUrl: 'app/modal_window/modal_window.html',
-              controller: ModalInstanceCtrl,
-              size: size,
-              resolve: {
-                cards: function () {
-                  return $scope.cards;
-                }
-              }
-            });
+        // open modal window
+        $scope.open = function(deck, size) {
+            var currentTime = new Date();
+            deckId = deck._id;
+            // get cards from selected deck
+            $http.get('/api/decks/' + deckId)
+                .success(function(data) {
+                    console.log('Deck Info before splice: ', data.cards)
 
-            // notify console when modal window dismissed
-            modalInstance.result.then(function (selectedItem) {
-              $scope.selected = selectedItem;
-            }, function () {
-              $log.info('Modal dismissed at: ' + new Date());
-            });
-        });
-      };
-});
+                    // check through cards in deck to see if display time has matched or passed
+                    for (var i=0; i<data.cards.length; i++) {
+                      // if current date-time matches or has passed nextDisplayTime in card object, pop from array
+                      var parsedDateFromModel = Date.parse(data.cards[i].nextDisplayTime)
+
+                      var parsedCurrentDate = Date.parse(currentTime);
+
+                      console.log('nextDisplaytime',data.cards[i].nextDisplayTime);
+                      console.log('currenttime', currentTime);
+
+                      if (parsedDateFromModel > parsedCurrentDate) {
+                        console.log('SUCCESS');
+                        // remove from array
+                        data.cards.splice(i ,1);
+                        i--; // reset the incrementor
+                      }
+                    }
+
+                    console.log('Deck after splice:', data.cards);
+
+                    // set items array equal to cards
+                    $scope.cards = data.cards;
+
+                    var modalInstance = $modal.open({
+                        templateUrl: 'app/modal_window/modal_window.html',
+                        controller: ModalInstanceCtrl,
+                        size: size,
+                        resolve: {
+                          cards: function() {
+                              return $scope.cards;
+                          }
+                        }
+                    });
+
+                    // notify console when modal window dismissed
+                    modalInstance.result.then(function(selectedItem) {
+                        $scope.selected = selectedItem;
+                    }, function() {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+                });
+        };
+    });
 
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
 // It is not the same as the $modal service used above.
-var ModalInstanceCtrl = function ($scope, $modalInstance, cards, $rootElement, $http) {
-  var show = false;
-  var showWSB = false;
-  var final_transcript = '';
+var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $http, $timeout) {
+    var show = false;
+    var showWSB = false;
+    var showCorrect = false;
+    var showWrong = false;
+    var final_transcript = '';
 
-  // config for web-speech API
-  var recognition = new webkitSpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.onstart = function() {
-    console.log("Voice recognition started");
-  };
-  recognition.onresult = function(event) {
-    var interim_transcript = '';
-    console.log("onresult even handler", event.results);
-    for (var i = event.resultIndex; i < event.results.length; ++i) {
-      if (event.results[i].isFinal) {
-        final_transcript += event.results[i][0].transcript;
-      } else {
-        interim_transcript += event.results[i][0].transcript;
+    // function to randomly shuffle card deck
+    function shuffle(array) {
+      var currentIndex = array.length
+        , temporaryValue
+        , randomIndex
+        ;
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
       }
+      return array;
     }
-    // add val of final_transcript to answer-input
-    var answer_input = document.getElementById('answer-input');
-    answer_input.value = final_transcript;
-  };
-  recognition.onend = function() {
-    alert("Speech recognition ended");
-  };
 
 
-  $scope.cards = cards;
+    // config for web-speech API
+    var recognition = new webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.onstart = function() {
+        alert("Say the answer clearly and slowly");
+    };
+    recognition.onresult = function(event) {
+        var interim_transcript = '';
+        console.log("onresult even handler", event.results);
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+                final_transcript += event.results[i][0].transcript;
+            } else {
+                interim_transcript += event.results[i][0].transcript;
+            }
+        };
+        // add val of final_transcript to answer-input
+        var answer_input = document.getElementById('answer-input');
+        answer_input.value = final_transcript;
+        $scope.card_answer.value = final_transcript;
+        console.log('card_answer.value from recog.onresult: ', $scope.card_answer.value);
+    };
 
-  // initially, index is at first card
-  $scope.currentIndex = 0;
+    recognition.onend = function() {
+        alert("Speech recognition ended");
+    };
 
-  $scope.selected = {
-    card: $scope.cards[0]
-  };
 
-  $scope.nextCard = function() {
-    // increments index
-    $scope.currentIndex < $scope.cards.length - 1 ? $scope.currentIndex++ : $scope.currentIndex = 0;
-    $scope.selected.card = $scope.cards[$scope.currentIndex];
-  };
+    $scope.cards = shuffle(cards);
 
-  $scope.prevCard = function() {
-    // decrements index
-    $scope.currentIndex > 0 ? $scope.currentIndex-- : $scope.currentIndex = $scope.cards.length - 1;
-    $scope.selected.card = $scope.cards[$scope.currentIndex];
-  };
+    // initially, index is at first card
+    $scope.currentIndex = 0;
 
-  // watch to detect when currentIndex changes
-  $scope.$watch('currentIndex', function() {
-    $scope.cards.forEach(function(card) {
-      card.visible = false; // make every card invisible
+    $scope.selected = {
+        card: $scope.cards[0]
+    };
+
+    $scope.nextCard = function() {
+        // increments index
+        $scope.currentIndex < $scope.cards.length - 1 ? $scope.currentIndex++ : $scope.currentIndex = 0;
+        $scope.selected.card = $scope.cards[$scope.currentIndex];
+        showCorrect = false;
+        showWrong = false;
+        show = false;
+        $scope.card_answer = {value: ''};
+    };
+
+    $scope.prevCard = function() {
+        // decrements index
+        $scope.currentIndex > 0 ? $scope.currentIndex-- : $scope.currentIndex = $scope.cards.length - 1;
+        $scope.selected.card = $scope.cards[$scope.currentIndex];
+        showCorrect = false;
+        showWrong = false;
+        show = false;
+        $scope.card_answer = {value: ''};
+    };
+
+    // watch to detect when currentIndex changes
+    $scope.$watch('currentIndex', function() {
+        $scope.cards.forEach(function(card) {
+            card.visible = false; // make every card invisible
+        });
+
+        $scope.cards[$scope.currentIndex].visible = true; // make the current card visible
     });
 
-    $scope.cards[$scope.currentIndex].visible = true; // make the current card visible
-  });
+    /* Set difficulty in the model to 'hard', 'medium' or 'easy' */
+    $scope.setDifficulty = function(difficulty) {
+        var nextDisplayDate = new Date();
+        // if difficulty is hard, then keep displaying
+        if (difficulty === 'hard') {
+          nextDisplayDate = 0;
+        }
+        // add 15 minutes
+        else if (difficulty === 'medium') {
+          nextDisplayDate = nextDisplayDate.setMinutes(nextDisplayDate.getMinutes() + 15);
+        }
+        // add 24 hours
+        else if (difficulty === 'easy') {
+          nextDisplayDate = nextDisplayDate.setDate(nextDisplayDate.getDate() + 1);
+        }
+        var cardId_obj = {
+            cardId: $scope.selected.card._id,
+            difficulty: difficulty,
+            nextDisplayTime: nextDisplayDate
+        };
+        // update 'difficulty' key in deck model
+        $http.put('/api/decks/' + deckId + '/' + $scope.selected.card._id + '/updateCard', cardId_obj);
 
-  /* Set difficulty in the model to 'hard', 'medium' or 'easy' */
-  $scope.setDifficulty = function(difficulty) {
-    var cardId_obj = {
-      cardId: $scope.selected.card._id,
-      difficulty: difficulty
+        if (difficulty !== 'hard') {
+          if ($scope.cards.length > 0) {
+            console.log('CARD LENGTH WHEN LENGTH > 0: ', $scope.cards.length);
+            $scope.cards.splice($scope.currentIndex, 1);
+            console.log('CARD LENGTH POST SLICE', $scope.cards.length)
+          }
+        }
+
+        if ($scope.cards.length >0) {
+          $scope.nextCard();
+        }
+  };
+
+
+    /* Allow webkitspeech */
+    $scope.startWebSpeech = function(event) {
+        recognition.lang = 'en-IN';
+        final_transcript = '';
+        recognition.start();
+        console.log('web speech started');
+        showWSB = true;
     };
-    console.log('deck id: ', deckId);
-    console.log('cardId obj: ', cardId_obj);
-    $http.put('/api/decks/' + deckId + '/' + $scope.selected.card._id + '/updateCard', cardId_obj);
 
-  }
+    $scope.stopWebSpeech = function(event) {
+        recognition.stop();
+        showWSB = false;
+    };
 
-  /* Allow webkitspeech */
- $scope.startWebSpeech = function(event) {
-    recognition.lang = 'en-IN';
-    final_transcript = '';
-    recognition.start();
-    showWSB = true;
-  }
+    $scope.showWebSpeechButton = function() {
+        return showWSB;
+    };
 
-  $scope.stopWebSpeech = function(event) {
-    recognition.stop();
-    showWSB = false;
-  }
+    $scope.showAnswer = function() {
+        show = true;
+    };
 
-  $scope.showWebSpeechButton = function() {
-    return showWSB;
-  }
+    $scope.hideAnswer = function() {
+        show = false;
+    };
 
-  $scope.showAnswer = function() {
-    show = true;
-  };
+    $scope.showButton = function() {
+        return show;
+    };
 
-  $scope.hideAnswer = function() {
-    show = false;
-  }
+    $scope.card_answer = {value: ''};
+    $scope.submitAnswer = function() {
+        // if user input answer equals card answer, show 'Well Done!'
+        if ($scope.card_answer.value === $scope.selected.card.answer) {
+          showCorrect = true;
+          showWrong = false;
+        }
+        // else show 'Try Again'
+        else {
+          showWrong = true;
+          showCorrect = false;
+        };
+    };
 
-  $scope.showButton = function() {
-    return show;
-  }
+    $scope.isCorrect = function() {
+        return showCorrect;
+    }
 
-  $scope.close = function () {
-    $modalInstance.close($scope.selected.card);
-  };
+    $scope.isWrong = function() {
+        return showWrong;
+    }
 
-  $scope.cancel = function () {
-    $modalInstance.dismiss('cancel');
-  };
+    $scope.close = function() {
+        $modalInstance.close($scope.selected.card);
+    };
+
+    // $scope.cancel = function () {
+    //   $modalInstance.dismiss('cancel');
+    // };
 };
-

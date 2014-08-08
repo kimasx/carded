@@ -1,44 +1,71 @@
-<br><br><div>
+<br>
+<br>
+<div>
     <div class="modal-header">
         <h3 class="modal-title">Let's Study</h3>
     </div>
 
-
     <div class="modal-body">
         <ul class="card-items">
             <li ng-repeat="card in cards">
-                <a ng-show="card.visible">{{ card.question }}</a>
+                <a ng-show="card.visible">
+                  <div class="card-content" ng-show="cards.length > 0">
+                    {{card.question}}
+                  </div>
+                </a>
             </li>
+
+            <div ng-show="cards.length === 0">
+              No more cards to study for the day!
+            </div>
+
         </ul>
-        <input id='answer-input' placeholder="Answer Here"></input>
-        <div ng-show="showButton()">{{selected.card.answer}}</div><br>
-        Selected: <b>{{ selected.card }}</b>
+
+        <!-- Answer Input Field -->
+        <form ng-submit="submitAnswer()">
+            <input type="text" id='answer-input' ng-model="card_answer.value" placeholder="Answer Here" />
+            <input type="submit" value="Submit"/>
+        </form>
+
+        <div ng-show="showButton()" class="alert alert-warning" role="alert">The answer is <b>"{{selected.card.answer}}"</b>. No peeking next time.</div>
+
+        <!-- Show if user is correct or not -->
+        <div>
+            <div class="glyphicon glyphicon-ok alert alert-success" ng-show="isCorrect()" role="alert">  Well Done!</div>
+            <div class="glyphicon glyphicon-remove alert alert-danger" ng-show="isWrong()" role="alert">Try Again</div>
+        </div>
+        <!-- <br>Selected: <b>{{ selected.card }}</b> -->
     </div>
 
-      <!-- Web Speech Buttons -->
-     <button class="btn btn-danger" id="start_button" ng-hide="showWebSpeechButton()" ng-click="startWebSpeech(event)">
-        Say Answer
-      </button>
-      <button class="btn btn-warning" id="stop_button" ng-show="showWebSpeechButton()" ng-click="stopWebSpeech(event)">
-        Stop
-      </button>
+    <!-- Web Speech Buttons -->
+    <div class='button-field'>
+      <div class='answer-btns'>
+        <button class="btn btn-danger" id="start_button" ng-hide="showWebSpeechButton()" ng-click="startWebSpeech(event)">
+            Say Answer
+        </button>
+        <button class="btn btn-warning" id="stop_button" ng-show="showWebSpeechButton()" ng-click="stopWebSpeech(event)">
+            Stop
+        </button>
 
       <!-- Show Answer Button -->
       <button class="btn btn-primary" ng-click="showAnswer()" ng-hide="showButton()">Show Answer</button>
       <button class="btn btn-primary" ng-click="hideAnswer()" ng-show="showButton()">Hide Answer</button>
-
+    </div>
+    <!-- Set-Difficulty Buttons -->
     <div class='time-buttons'>
-      <button class="btn btn-inverse" ng-click="setDifficulty('hard')">Hard (soon)</button>
-      <button class="btn btn-inverse" ng-click="setDifficulty('medium')">Medium (1 day)</button>
-      <button class="btn btn-inverse" ng-click="setDifficulty('easy')">Easy (3 days)</button>
+        <button class="btn btn-inverse" ng-click="setDifficulty('hard')">Hard (soon)</button>
+        <button class="btn btn-inverse" ng-click="setDifficulty('medium')">Medium (15 min)</button>
+        <button class="btn btn-inverse" ng-click="setDifficulty('easy')">Easy (1 day)</button>
     </div>
-    <div class='flow-btns'>
-      <button class="glyphicon glyphicon-chevron-left" ng-click="prevCard()"></button>
-      <button class="glyphicon glyphicon-chevron-right" ng-click="nextCard()"></button>
-    </div>
-    <div class="modal-footer">
 
+    <!-- Prev/Next Card -->
+<!--     <div class='flow-btns'>
+        <button class="glyphicon glyphicon-chevron-left" ng-click="prevCard()"></button>
+        <button class="glyphicon glyphicon-chevron-right" ng-click="nextCard()"></button>
+    </div> -->
+  </div>
+    <div class="modal-footer">
         <button class="btn btn-inverse" ng-click="close()">Close</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <!-- <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
     </div>
 </div>

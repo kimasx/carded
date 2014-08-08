@@ -1,3 +1,7 @@
 .cards {
   list-style-type: none;
 }
+
+.deckctrl-btns {
+  display: inline-block;
+}

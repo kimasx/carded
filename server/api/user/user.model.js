@@ -1,8 +1,13 @@
 'use strict';
 
 var mongoose = require('mongoose');
+mongoose.set('debug', true);
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
+// var DeckSchema = require('../deck/deck.model.js')
+// var Deck = mongoose.model('Deck', DeckSchema);
+// var Card = mongoose.model('Card', CardSchema);
+
 
 var UserSchema = new Schema({
   name: String,
@@ -14,7 +19,8 @@ var UserSchema = new Schema({
   hashedPassword: String,
   provider: String,
   salt: String,
-  decks: []
+  // decks field set to an array of ObjectIds, mongoose looks in Deck model
+  decks: [{type: Schema.ObjectId, ref: 'Deck'}],
 });
 
 /**

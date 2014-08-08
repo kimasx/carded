@@ -15,23 +15,45 @@ angular.module('authTestApp')
 
     $scope.cards = [];
 
+    /* ADD Card */
     $scope.startAddCard = function() {
-      $scope.newCard = { question: '', answer: '', difficulty: 'hard'};
+      $scope.newCard = { question: '', answer: '', difficulty: 'hard', nextDisplayTime: 0};
       $scope.adding = true;
-      console.log($scope.name);
     }
 
     $scope.addCard = function() {
       $scope.adding = false;
       var newCard = angular.copy($scope.newCard);
-      $scope.cards.push(newCard);
       // put card obj into deck
-      $http.post('api/decks/'+ $scope._id + '/newCard', newCard);
+      $http.post('api/decks/'+ $scope._id + '/newCard', newCard).success(function(deck) {
+          $scope.cards.push(deck.cards[deck.cards.length-1]);
+      })
     }
 
     $scope.cancelAddCard = function() {
       $scope.adding = false;
     };
+
+
+    /* EDIT Card */
+    $scope.startEditCard = function(card, $index) {
+      $scope.editing = true;
+      $scope.cardId = card._id;
+      $scope.editingCard = {cardId: $scope.cardId, question: card.question, answer: card.answer, index: $index}
+    }
+
+    $scope.editCard = function() {
+      $scope.editing = false;
+      console.log('cardId in editCard', $scope.cardId)
+      $http.put('/api/decks/' + $scope._id + '/' + $scope.cardId + '/editCard', $scope.editingCard).success(function() {
+        $scope.cards[$scope.editingCard.index].answer = $scope.editingCard.answer;
+        $scope.cards[$scope.editingCard.index].question = $scope.editingCard.question;
+      });
+    }
+
+    $scope.cancelEditCard = function() {
+      $scope.editing = false;
+    }
 
     $scope.deleteCard = function(card, $index) {
       var cardId = card._id;
@@ -44,5 +66,4 @@ angular.module('authTestApp')
         $scope.cards.splice($index,1)
       }
     };
-
   });

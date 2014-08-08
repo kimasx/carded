@@ -26,9 +26,11 @@ angular.module('authTestApp')
         }).
         success(function(data) {
           $cookieStore.put('token', data.token);
-          currentUser = User.get();
-          deferred.resolve(data);
-          return cb();
+          currentUser = User.get(function(){
+            console.log("id", currentUser._id);
+            deferred.resolve(data);
+            return cb();
+          });
         }).
         error(function(err) {
           this.logout();

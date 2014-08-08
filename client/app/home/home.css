@@ -16,9 +16,10 @@ h3 {
   background-color: white;
 }
 
-.deck-list {
+.tile {
   list-style-type: none;
   background: white;
+  margin: 35px;
 }
 
 .add-window .header {

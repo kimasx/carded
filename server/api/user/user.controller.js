@@ -5,6 +5,9 @@ var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 
+// DeckSchema = require('../deck/deck.model.js')
+
+
 var validationError = function(res, err) {
   return res.json(422, err);
 };
@@ -40,10 +43,10 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var userId = req.params.id;
 
-  User.findById(userId, function (err, user) {
+  User.findById(userId).populate('decks').exec(function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(401);
-    res.json(user.profile);
+    return res.json(200, user);
   });
 };
 

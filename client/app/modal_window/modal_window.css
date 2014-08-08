@@ -5,6 +5,43 @@
   background-color: #edeff1;
 }
 
+.modal-dialog {
+  margin-top: 50px;
+  margin-right: 570px;
+}
+
 .card-items {
   list-style-type: none;
+  font-size: 300%;
+  display: center;
+  padding-left: 0;
+}
+
+.modal-footer {
+  padding-top: 100px;
+  padding-bottom: 20px;
+}
+
+#answer-input {
+  display: center;
+  margin-left: 0px;
+}
+
+.time-buttons{
+  display: block;
+  margin-top: 15px;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+.answer-btns {
+  width: 228px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

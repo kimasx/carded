@@ -3,21 +3,22 @@
 <br>
 <br>{{name}} Deck
 
-<div ng-controller='DeckCtrl'>
+<div class="deckctrl-btns" ng-controller='DeckCtrl'>
     <button class='btn btn-primary' id='add_card' ng-click="startAddCard()">+ Add Card</button>
     <div ng-controller="ModalWindowCtrl">
       <button class='btn btn-danger' id='launch-deck' ng-click="open(deck)">Study Deck</button>
     </div>
     <ul>
-        <li class='col-md-12 cards tile' ng-repeat='card in cards'>
-            <div>Question: {{card.question}}</div>
-            <div>Answer: {{card.answer}}</div>
-            <div>Difficulty: {{card.difficulty}}</div>
+        <li class='col-md-5 cards tile' ng-repeat='card in cards'>
+            <div><b>Question:</b> {{card.question}}</div>
+            <div><b>Answer:</b> {{card.answer}}</div>
+            <div><b>Difficulty:</b> {{card.difficulty}}</div>
             <span class="fui-cross" ng-click='deleteCard(card, $index)'></span>
-            <span class="fui-new"></span>
+            <span class="fui-new" ng-click='startEditCard(card, $index)'></span>
         </li>
     </ul>
 
+    <!-- Add Card Form -->
     <form ng-show="adding" class="add-window" ng-submit="addCard()">
         <div class='header'>Add a Card</div>
         <div class='inner'>
@@ -32,6 +33,25 @@
             <div class='button-bar'>
                 <input type="submit" value="Add">
                 <button type="button" ng-click="cancelAddCard()">Cancel</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Edit Card Form -->
+    <form ng-show="editing" class="add-window" ng-submit="editCard()">
+        <div class='header'>Edit Card</div>
+        <div class='inner'>
+            <div>
+                <label>Question:</label>
+                <input type="text" ng-model="editingCard.question" required>
+            </div>
+            <div>
+                <label>Answer:</label>
+                <textarea ng-model="editingCard.answer" required></textarea>
+            </div>
+            <div class='button-bar'>
+                <input type="submit" value="Add">
+                <button type="button" ng-click="cancelEditCard()">Cancel</button>
             </div>
         </div>
     </form>
