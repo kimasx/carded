@@ -23,3 +23,4 @@ foreign languages.
 ### Future Plans
 - I still need to some UX/UI. Those will be updated accordingly.
 - Need to fix a bug where a blank card shows up when no card should.
+
