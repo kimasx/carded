@@ -1,15 +1,15 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <br>
 <br>
-<br>{{name}} Deck
+<h3>{{name}}</h3>
 
 <div class="deckctrl-btns" ng-controller='DeckCtrl'>
-    <button class='btn btn-primary' id='add_card' ng-click="startAddCard()">+ Add Card</button>
+    <button class='btn btn-primary' id='add-card' ng-click="startAddCard()">+ Add Card</button>
     <div ng-controller="ModalWindowCtrl">
       <button class='btn btn-danger' id='launch-deck' ng-click="open(deck)">Study Deck</button>
     </div>
     <ul>
-        <li class='col-md-5 cards tile' ng-repeat='card in cards'>
+        <li class='col-md-6 cards well' ng-repeat='card in cards'>
             <div><b>Question:</b> {{card.question}}</div>
             <div><b>Answer:</b> {{card.answer}}</div>
             <div><b>Difficulty:</b> {{card.difficulty}}</div>
@@ -20,38 +20,38 @@
 
     <!-- Add Card Form -->
     <form ng-show="adding" class="add-window" ng-submit="addCard()">
-        <div class='header'>Add a Card</div>
+        <div class='header'>Add a Card<span class="fui-cross" id='exit-form' ng-click="cancelAddCard()"></div>
         <div class='inner'>
             <div>
                 <label>Question:</label>
-                <input type="text" ng-model="newCard.question" required>
+                <input class="form-control" ng-model="newCard.question" required>
             </div>
             <div>
                 <label>Answer:</label>
-                <textarea ng-model="newCard.answer" required></textarea>
+                <input class="form-control" ng-model="newCard.answer" required></input>
             </div>
             <div class='button-bar'>
-                <input type="submit" value="Add">
-                <button type="button" ng-click="cancelAddCard()">Cancel</button>
+                <input type="submit" class='btn btn-info' value="Add">
+                <button type="button" class="btn btn-inverse" ng-click="cancelAddCard()">Cancel</button>
             </div>
         </div>
     </form>
 
     <!-- Edit Card Form -->
     <form ng-show="editing" class="add-window" ng-submit="editCard()">
-        <div class='header'>Edit Card</div>
+        <div class='header'>Edit Card <span class="fui-cross" id='exit-form' ng-click="cancelEditCard()"></div>
         <div class='inner'>
             <div>
                 <label>Question:</label>
-                <input type="text" ng-model="editingCard.question" required>
+                <input class="form-control" ng-model="editingCard.question" required>
             </div>
             <div>
                 <label>Answer:</label>
-                <textarea ng-model="editingCard.answer" required></textarea>
+                <input ng-model="editingCard.answer" class="form-control" required></input>
             </div>
             <div class='button-bar'>
-                <input type="submit" value="Add">
-                <button type="button" ng-click="cancelEditCard()">Cancel</button>
+                <input type="submit" class='btn btn-info' value="Add">
+                <button type="button" class="btn btn-inverse" ng-click="cancelEditCard()">Cancel</button>
             </div>
         </div>
     </form>

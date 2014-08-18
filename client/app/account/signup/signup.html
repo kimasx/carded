@@ -2,7 +2,7 @@
 <br>
 <div class="container">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-12" id='signup-header'>
       <h1>Sign up</h1>
     </div>
     <div class="col-sm-12 login-form">
@@ -12,7 +12,7 @@
                                             'has-error': form.name.$invalid && submitted }">
           <label>Name</label>
 
-          <input type="text" name="name" class="form-control" ng-model="user.name"
+          <input name="name" class="form-control" ng-model="user.name"
                  required/>
           <p class="help-block" ng-show="form.name.$error.required && submitted">
             A name is required

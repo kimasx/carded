@@ -7,19 +7,20 @@ h3 {
 }
 
 .add-window {
-  border: 2px solid black;
   min-width: 410px;
   min-height: 320px;
   position: fixed;
   bottom: 0px;
   right: 10px;
   background-color: white;
+  -webkit-box-shadow: 3px 3px 5px 4px rgba(0, 0, 0, 0.25);
 }
 
-.tile {
+.well {
   list-style-type: none;
   background: white;
   margin: 35px;
+  text-align: center;
 }
 
 .add-window .header {
@@ -54,3 +55,16 @@ textarea {
   width: 200px;
   height: 100px;
 }
+
+#exit-form {
+  margin-left: 260px;
+}
+
+#delete-deck {
+  display: inline-block;
+}
+
+.col-xs-2.deck-list.tile.ng-scope > .control-btns > .ng-scope {
+  display: inline-block;
+}
+

@@ -19,20 +19,18 @@
 
 }
 
-.nav-l {
+.navbar-collapse {
   text-align: center;
-  padding-top: 15px;
+  padding-top: 20px;
 }
 
 .nav-r {
   text-align: center;
-  padding-top: 10px;
   margin-right: 50px;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a {
   color: white;
-  padding-top: 23px;
 }
 
 #navbar-main {

@@ -5,3 +5,23 @@
 .deckctrl-btns {
   display: inline-block;
 }
+
+#add-card {
+  display: inline-block;
+  margin-left: 50px;
+}
+
+#launch-deck {
+  display: inline-block;
+}
+
+.deckctrl-btns.ng-scope > .ng-scope {
+  display: inline-block;
+}
+
+.col-md-6.cards.well {
+  margin: 20px;
+  text-align: center;
+  width: 45%;
+  float: left;
+}

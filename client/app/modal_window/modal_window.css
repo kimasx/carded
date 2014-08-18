@@ -18,7 +18,7 @@
 }
 
 .modal-footer {
-  padding-top: 100px;
+  padding-top: 70px;
   padding-bottom: 20px;
 }
 
@@ -44,4 +44,8 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.glyphicon.glyphicon-ok {
+  display: inline-block;
 }

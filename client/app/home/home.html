@@ -4,32 +4,33 @@
 <div ng-controller='HomeCtrl'>
     <button class='btn btn-danger' id='make_deck' ng-click="startAdd()">Make Deck</button>
     <ul>
-      <li class='col-xs-2 deck-list tile' ng-repeat="item in items">
+      <li class='col-xs-2 deck-list well' ng-repeat="item in items">
           <a href='/deck/{{item.name}}/{{item._id}}' ng-click="item.showing = !item.showing">
             {{item.name}}
           </a>
-          <span class="fui-cross" ng-click='deleteItem(item, $index)'></span>
-
+          <div class='control-btns'>
           <div ng-controller="ModalWindowCtrl">
-            <span class="fui-play" ng-click="open(item)"></span>
+            <span class="fa fa-play-circle" ng-click="open(item)"></span>
           </div>
+          <span class="fui-cross" id='delete-deck'ng-click='deleteItem(item, $index)'></span>
+        </div>
         <!-- <div ng-show="item.showing" class='description'
           ng-bind-html-unsafe="item.description"></div> -->
       </li>
     </ul>
     <form ng-show="adding" class="add-window" ng-submit="addItem()">
-      <div class='header'>Add a Deck</div>
+      <div class='header'>Add a Deck<span class="fui-cross" id='exit-form' ng-click="cancelAdd()"></span></div>
       <div class='inner'>
         <div>
           <label>Name: </label>
-          <input type="text" ng-model="newItem.name" required>
+          <input class="form-control" ng-model="newItem.name" required>
         </div>
         <div>
           <label>Description: </label>
-          <textarea ng-model="newItem.description"></textarea>
+          <textarea class="form-control" ng-model="newItem.description"></textarea>
         </div>
         <div class='button-bar'>
-          <input type="submit" value="Add">
+          <input type="submit" class='btn btn-info' value="Add">
           <button class="btn btn-inverse"type="button" ng-click="cancelAdd()">Cancel</button>
         </div>
       </div>
