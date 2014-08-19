@@ -128,44 +128,23 @@ var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $h
     $scope.currentIndex = 0;
 
     $scope.selected = {
-        card: $scope.cards[0]
+        card: $scope.cards[$scope.currentIndex]
     };
+
 
     $scope.nextCard = function() {
         // increments index
         if ($scope.cards.length-1 > $scope.currentIndex) {
-          $scope.currentIndex++
+          $scope.currentIndex = 0;
         }
-        // else if ($scope.cards.length === 1) {
-        //   $scope.currentIndex = 0;
-        // }
-        else {$scope.currentIndex = 0;}
+        $scope.cards[$scope.currentIndex].visible = true;
 
-        $scope.selected.card = $scope.cards[$scope.currentIndex];
         showCorrect = false;
         showWrong = false;
         show = false;
         $scope.card_answer = {value: ''};
     };
 
-    $scope.prevCard = function() {
-        // decrements index
-        $scope.currentIndex > 0 ? $scope.currentIndex-- : $scope.currentIndex = $scope.cards.length - 1;
-        $scope.selected.card = $scope.cards[$scope.currentIndex];
-        showCorrect = false;
-        showWrong = false;
-        show = false;
-        $scope.card_answer = {value: ''};
-    };
-
-    // watch to detect when currentIndex changes
-    $scope.$watch('currentIndex', function() {
-        $scope.cards.forEach(function(card) {
-            card.visible = false; // make every card invisible
-        });
-
-        $scope.cards[$scope.currentIndex].visible = true; // make the current card visible
-    });
 
     /* Set difficulty in the model to 'hard', 'medium' or 'easy' */
     $scope.setDifficulty = function(difficulty) {
@@ -192,14 +171,11 @@ var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $h
 
         if (difficulty !== 'hard') {
           if ($scope.cards.length > 0) {
-            console.log('CARD LENGTH WHEN LENGTH > 0: ', $scope.cards.length);
-            console.log('index before splice',$scope.currentIndex);
             $scope.cards.splice($scope.currentIndex, 1);
-            console.log('CARD LENGTH POST SLICE', $scope.cards.length)
-            $scope.nextCard();
-            console.log('index after nextCard',$scope.currentIndex);
           }
+          $scope.selected.card = $scope.cards[$scope.currentIndex];
         }
+        $scope.nextCard();
   };
 
 
@@ -258,8 +234,4 @@ var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $h
     $scope.close = function() {
         $modalInstance.close($scope.selected.card);
     };
-
-    // $scope.cancel = function () {
-    //   $modalInstance.dismiss('cancel');
-    // };
 };

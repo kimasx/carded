@@ -9,7 +9,7 @@
         <ul class="card-items">
             <li ng-repeat="card in cards">
                 <a ng-show="card.visible">
-                  <div class="card-content" ng-show="cards.length > 0">
+                  <div class="card-content" ng-show="cards.length > 0" ng-init="cards[0].visible=true">
                     {{card.question}}
                   </div>
                 </a>
