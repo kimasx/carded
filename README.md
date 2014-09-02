@@ -18,7 +18,7 @@ foreign languages.
 
 *Front-End*
 - AngularJS
-- UI-Bootstrap
+- UI-Bootstraps
 
 ### Future Plans
 - I still need to some UX/UI. Those will be updated accordingly.
