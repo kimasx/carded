@@ -24,3 +24,5 @@ foreign languages.
 - I still need to some UX/UI. Those will be updated accordingly.
 - Need to fix a bug where a blank card shows up when no card should.
 
+The app is live at http://carded.herokuapp.com.
+The styling got messy when it was deployed to Heroku, so git clone the app for the prettier Carded.
