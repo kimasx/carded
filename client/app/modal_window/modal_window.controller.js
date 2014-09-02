@@ -4,7 +4,7 @@ var deckId;
 
 // directive code for modal
 angular.module('authTestApp')
-    .controller('ModalWindowCtrl', function($scope, $http, $modal, $log, $templateCache) {
+    .controller('ModalWindowCtrl', ["$scope", "$http", "$modal", "$log", "$templateCache", function($scope, $http, $modal, $log, $templateCache) {
 
         $scope.cards = [];
 
@@ -59,7 +59,7 @@ angular.module('authTestApp')
                     });
                 });
         };
-    });
+    }]);
 
 
 // Please note that $modalInstance represents a modal window (instance) dependency.
@@ -240,3 +240,5 @@ var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $h
         $modalInstance.close($scope.selected.card);
     };
 };
+
+ModalInstanceCtrl.$inject = ["$scope", "$modalInstance", "cards", "$rootElement", "$http", "$timeout"];

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('authTestApp')
-  .controller('HomeCtrl', function($scope, $http, Auth) {
+  .controller('HomeCtrl', ["$scope", "$http", "Auth", function($scope, $http, Auth) {
 
     var current_user = Auth.getCurrentUser();
     // console.log('current user:', current_user);
@@ -48,4 +48,4 @@ angular.module('authTestApp')
     $scope.cancelAdd = function() {
       $scope.adding = false;
     };
-});
+}]);
