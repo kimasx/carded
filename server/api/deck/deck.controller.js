@@ -3,7 +3,7 @@
 var _ = require('lodash');
 var mongoose = require('mongoose');
 
-var User = mongoose.model('User');
+var User = require('../user/user.model.js');
 var Deck = require('./deck.model')['Deck'];
 var Card = require('./deck.model')['Card'];
 
