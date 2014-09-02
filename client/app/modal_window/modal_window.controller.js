@@ -75,15 +75,12 @@ var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $h
     function shuffle(array) {
       var currentIndex = array.length
         , temporaryValue
-        , randomIndex
-        ;
+        , randomIndex;
       // While there remain elements to shuffle...
       while (0 !== currentIndex) {
-
         // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-
         // And swap it with the current element.
         temporaryValue = array[currentIndex];
         array[currentIndex] = array[randomIndex];
@@ -131,7 +128,6 @@ var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $h
         card: $scope.cards[$scope.currentIndex]
     };
 
-
     $scope.nextCard = function() {
         // increments index
         if ($scope.cards.length-1 > $scope.currentIndex) {
@@ -172,11 +168,20 @@ var ModalInstanceCtrl = function($scope, $modalInstance, cards, $rootElement, $h
         if (difficulty !== 'hard') {
           if ($scope.cards.length > 0) {
             $scope.cards.splice($scope.currentIndex, 1);
+            console.log($scope.currentIndex);
+            $scope.selected.card = $scope.cards[$scope.currentIndex];
           }
-          $scope.selected.card = $scope.cards[$scope.currentIndex];
         }
-        $scope.nextCard();
+        else if (difficulty === 'hard'){
+          var hardCard = $scope.cards.shift()
+          console.log('these are the cards after hard btn', hardCard);
+          $scope.cards.push(hardCard);
+          $scope.selected.card = $scope.cards[$scope.currentIndex];
+          $scope.cards[$scope.cards.length-1].visible = false;
+        }
+      $scope.nextCard();
   };
+
 
 
     /* Allow webkitspeech */
