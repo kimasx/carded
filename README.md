@@ -19,10 +19,13 @@ foreign languages.
 *Front-End*
 - AngularJS
 - UI-Bootstraps
+- Flat-UI
+- [Google's Web Speech API](https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html)
 
 ### Future Plans
 - If anyone has feature recommendations, feel free to reach out!!
 
 
 The app is live at http://carded.herokuapp.com.
-The styling got messy when it was deployed to Heroku, so git clone the app for the prettier Carded.
+The styling got messy when it was deployed to Heroku because Bower didn't support Flat-UI.
+Git clone the app for the prettier Carded.
